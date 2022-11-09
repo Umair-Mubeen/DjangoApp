@@ -15,18 +15,17 @@ def login(request):
         if request.method == 'POST':
             user = request.POST['user']
             pwd = request.POST['pwd']
-            Emp = Employee.objects.all()
-            for val in Emp:
-                if val.Emp_Name == user and int(val.Emp_Pwd) == int(pwd):
-                    print("Login SuccessFully !")
-                    url = "Dashboard"
-                    return HttpResponseRedirect(url)
-                else:
-                    return HttpResponse("Invalid UserName Or Password  !")
+            Emp = Employee.objects.filter(Emp_Name=user, Emp_Pwd = pwd)
+            if Emp is not None:
+                print("Login SuccessFully !")
+                return HttpResponseRedirect('Dashboard')
+            else:
+                return HttpResponse("Invalid UserName Or Password  !")
         else:
-            return HttpResponse('UserName or Password is invalid !')
+            return HttpResponse('Method shall be POST rather than GET !')
     except Exception as e:
         return HttpResponse(e)
+
 
 
 def registration(request):
