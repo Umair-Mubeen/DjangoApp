@@ -18,11 +18,16 @@ def login(request):
         if request.method == 'POST':
             user = request.POST['user']
             pwd = request.POST['pwd']
+<<<<<<< HEAD
             Emp = Employee.objects.filter(Emp_Name=user, Emp_Pwd=pwd)
             if Emp is not None:
                 if 'UserName' not in request.session:
                     request.session['UserName'] = user
 
+=======
+            Emp = Employee.objects.filter(Emp_Name=user, Emp_Pwd = pwd)
+            if Emp is not None:
+>>>>>>> 704837ea5bdf64a2f735ef7edcef12e21fccc1e9
                 print("Login SuccessFully !")
                 return HttpResponseRedirect('Dashboard')
             else:
@@ -31,6 +36,7 @@ def login(request):
             return HttpResponse('Method shall be POST rather than GET !')
     except Exception as e:
         return HttpResponse(e)
+
 
 
 def registration(request):
@@ -146,6 +152,7 @@ def Dashboard(request):
 def AddEditInward(request):
     return_url = request.GET['return_url']
     return HttpResponse(return_url)
+<<<<<<< HEAD
 
 
 def Logout(request):
@@ -158,3 +165,5 @@ def IsUserLoggedIn(request):
         return True
     else:
         return False
+=======
+>>>>>>> 704837ea5bdf64a2f735ef7edcef12e21fccc1e9
