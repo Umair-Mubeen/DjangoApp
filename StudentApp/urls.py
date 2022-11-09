@@ -10,6 +10,7 @@ path('GetEmp', views.FetchUser),
 path('Dashboard', views.Dashboard),
 path("AddEditInward", views.AddEditInward),
 path("ManageUsers", views.FetchUser),
-path("delete", views.DeleteUser)
+path("delete", views.DeleteUser),
+path('Logout', views.Logout)
 
 ]

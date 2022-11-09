@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, resolve_url
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import  Employee
+from .models import Employee
 
 
 def Index(request):
     try:
-        return render(request,'login.html')
+        if 'UserName' not in request.session:
+            return render(request, 'login.html')
+        else:
+            return HttpResponseRedirect('Dashboard')
     except Exception as e:
         return HttpResponse(str(e))
 
@@ -15,8 +18,11 @@ def login(request):
         if request.method == 'POST':
             user = request.POST['user']
             pwd = request.POST['pwd']
-            Emp = Employee.objects.filter(Emp_Name=user, Emp_Pwd = pwd)
+            Emp = Employee.objects.filter(Emp_Name=user, Emp_Pwd=pwd)
             if Emp is not None:
+                if 'UserName' not in request.session:
+                    request.session['UserName'] = user
+
                 print("Login SuccessFully !")
                 return HttpResponseRedirect('Dashboard')
             else:
@@ -29,23 +35,28 @@ def login(request):
 
 def registration(request):
     try:
+        if 'UserName' not in request.session:
+            return HttpResponseRedirect('/')
+
         ID = request.GET.get('Id')
         if ID is None:
-            return render(request, 'registration.html',{"EmpID" : "","Emp_Name" : "","Emp_Email" : "","Emp_Age" : "","EmpAddress" : "", "EmpDesignation" :"" , "Type" : "" ,"Emp_PWD" : ""})
+            return render(request, 'registration.html',
+                          {"EmpID": "", "Emp_Name": "", "Emp_Email": "", "Emp_Age": "", "EmpAddress": "",
+                           "EmpDesignation": "", "Type": "", "Emp_PWD": ""})
         else:
             Emp = Employee.objects.get(pk=ID)
 
-            return render(request, 'registration.html',{
-                              "EmpID" : ID,
-                              "Emp_Name": Emp.Emp_Name,
-                              "Emp_Email": Emp.Emp_Email,
-                              "Emp_Age": Emp.Emp_Age,
-                              "EmpAddress": Emp.EmpAddress,
-                              "EmpDesignation": Emp.Emp_Designation,
-                              "Type" : "hidden",
-                              "Emp_PWD"  : Emp.Emp_Pwd
+            return render(request, 'registration.html', {
+                "EmpID": ID,
+                "Emp_Name": Emp.Emp_Name,
+                "Emp_Email": Emp.Emp_Email,
+                "Emp_Age": Emp.Emp_Age,
+                "EmpAddress": Emp.EmpAddress,
+                "EmpDesignation": Emp.Emp_Designation,
+                "Type": "hidden",
+                "Emp_PWD": Emp.Emp_Pwd
 
-                                                         })
+            })
 
 
 
@@ -55,7 +66,6 @@ def registration(request):
 
 
 def AddUser(request):
-
     try:
         if request.method == 'POST':
 
@@ -99,14 +109,18 @@ def AddUser(request):
 
 def FetchUser(request):
     try:
+        if 'UserName' not in request.session:
+            return HttpResponseRedirect('/')
+
         Emp = Employee.objects.all()
         print(Emp)
         for res in Emp:
             print(res.Emp_Name)
-        return render(request,'ManageUsers.html', {'EmpList' : Emp})
+        return render(request, 'ManageUsers.html', {'EmpList': Emp})
 
     except Exception as e:
         return HttpResponse(e)
+
 
 def DeleteUser(request):
     try:
@@ -119,12 +133,28 @@ def DeleteUser(request):
 
 
 def Dashboard(request):
-    #request.path get url without query parameters
-    #request.get_full_[ath with query parameters
-    #requet.build_absolute_uri gives you relative url
-    return render(request,'Dashboard.html', {'return_url' : request.build_absolute_uri})
+    if 'UserName' not in request.session:
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'Dashboard.html', {'return_url': request.build_absolute_uri})
+    # request.path get url without query parameters
+    # request.get_full_[ath with query parameters
+    # requet.build_absolute_uri gives you relative url
+
 
 
 def AddEditInward(request):
     return_url = request.GET['return_url']
     return HttpResponse(return_url)
+
+
+def Logout(request):
+    del request.session['UserName']
+    return HttpResponseRedirect('Dashboard')
+
+
+def IsUserLoggedIn(request):
+    if request.session['UserName'] is not None:
+        return True
+    else:
+        return False
