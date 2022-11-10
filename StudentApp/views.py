@@ -18,13 +18,11 @@ def login(request):
         if request.method == 'POST':
             user = request.POST['user']
             pwd = request.POST['pwd']
-            Emp = Employee.objects.filter(Emp_Name=user, Emp_Pwd=pwd)
-            if Emp is not None:
+            Emp = Employee.objects.filter(Emp_Name=user, Emp_Pwd=pwd).exists()
+
+            if Emp is True:
                 if 'UserName' not in request.session:
                     request.session['UserName'] = user
-
-            Emp = Employee.objects.filter(Emp_Name=user, Emp_Pwd = pwd)
-            if Emp is not None:
                 print("Login SuccessFully !")
                 return HttpResponseRedirect('Dashboard')
             else:
