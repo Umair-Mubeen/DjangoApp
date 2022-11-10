@@ -19,7 +19,6 @@ def login(request):
             user = request.POST['user']
             pwd = request.POST['pwd']
             Emp = Employee.objects.filter(Emp_Name=user, Emp_Pwd=pwd).exists()
-
             if Emp is True:
                 if 'UserName' not in request.session:
                     request.session['UserName'] = user
