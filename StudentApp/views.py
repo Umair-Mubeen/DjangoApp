@@ -32,7 +32,6 @@ def login(request):
         return HttpResponse(e)
 
 
-
 def registration(request):
     try:
         if 'UserName' not in request.session:
@@ -67,6 +66,9 @@ def registration(request):
 
 def AddUser(request):
     try:
+        if 'UserName' not in request.session:
+            return HttpResponseRedirect('/')
+
         if request.method == 'POST':
 
             hd_Id = request.POST['hd_Id']
@@ -113,7 +115,6 @@ def FetchUser(request):
             return HttpResponseRedirect('/')
 
         Emp = Employee.objects.all()
-        print(Emp)
         for res in Emp:
             print(res.Emp_Name)
         return render(request, 'ManageUsers.html', {'EmpList': Emp})
@@ -124,6 +125,9 @@ def FetchUser(request):
 
 def DeleteUser(request):
     try:
+        if 'UserName' not in request.session:
+            return HttpResponseRedirect('/')
+
         ID = request.GET.get('Id')
         Emp = Employee.objects.get(pk=ID)
         Emp.delete()
@@ -142,13 +146,18 @@ def Dashboard(request):
     # requet.build_absolute_uri gives you relative url
 
 
-
 def AddEditInward(request):
+    if 'UserName' not in request.session:
+        return HttpResponseRedirect('/')
+
     return_url = request.GET['return_url']
     return HttpResponse(return_url)
 
 
 def Logout(request):
+    if 'UserName' not in request.session:
+        return HttpResponseRedirect('/')
+
     del request.session['UserName']
     return HttpResponseRedirect('Dashboard')
 
