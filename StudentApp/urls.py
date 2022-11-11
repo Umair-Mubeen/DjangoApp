@@ -11,6 +11,6 @@ path('Dashboard', views.Dashboard),
 path("AddEditInward", views.AddEditInward),
 path("ManageUsers", views.FetchUser),
 path("delete", views.DeleteUser),
-path('Logout', views.Logout)
-
+path('Logout', views.Logout),
+path('AddEditNewInward', views.Add_Edit_New_Inward)
 ]

@@ -1,0 +1,196 @@
+{% include 'libraries.html' %}
+
+<body class="hold-transition layout-top-nav">
+{% include 'navbar.html' %}
+<div class="wrapper">
+    <div class="content-wrapper" style="min-height: 435px;">
+        <div class="content-header">
+            <div class="container">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <div class="page-title d-flex">
+                        </div>
+                        <h1 class="m-0 text-dark"><small></small></h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/Index" style="color:black"><i class="fa fa-home"></i>
+                            </a>
+                            </li>
+                            '
+
+                            <li class="breadcrumb-item active"><a
+                                    href="https://inlandrevenue.pythonanywhere.com/ManageInward" style="color:black">
+                                Manage
+                                Inward </a></li>
+                            <li class="breadcrumb-item "> Senders</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="container-fluid">
+            <form action="AddEditNewInward" id="AddEditNewInward" name="AddEditNewInward" method="POST">
+                {% csrf_token %}
+                <div class="row p-2">
+
+                    <div class="col-lg-4">
+                        <div class="card collapsed-card">
+                            <div class="card-header header-elements-inline">
+
+                                <h5 class="card-title">Add New InWard</h5>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                                            class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                            class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+
+
+                            <div class="card-body mt-0" style="display:block">
+                                <div class="form-group">
+                                    <label>Sender Name </label>
+
+                                    <select class="js-example-basic-single form-control" name="Sender_Name">
+                                        <option value="AL">Alabama</option>
+                                        <option value="WY">Wyoming</option>
+                                    </select>
+                                </div>
+                                <!-- /.form-group -->
+
+
+                                                                <input type="hidden" value="" name="hd_user_id" id="hd_user_id">
+                                                                <input type="hidden" value="" name="hd_return_url" id="hd_return_url">
+
+                                                                <input type="hidden" value="" name="hd_inword_status" id="hd_inword_status">
+                                                                <input type="hidden" value="1" name="Inward_Type">
+
+                                                                <input type="hidden" value="" id="SenderID" name="hd_SenderID">
+                                                                <input type="hidden" value="" id="report_type" name="hd_report_type">
+
+                                <div class="form-group">
+                                    <label> Subject </label>
+                                    <textarea rows="1" cols="5" name="Sender_Letter_Subject"
+                                              class="form-control"> </textarea>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>Sender Letter #</label>
+                                    <input type="text" name="Sender_Letter_Number" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Sender Letter Date</label>
+                                    <input type="date" name="Sender_Letter_Date" class="form-control" >
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Sender Letter Type </label>
+                                    <select name="Sender_Letter_Type" class="form-control" id="Sender_Letter_Type">
+                                        <option value="Board"> Board Matter</option>
+                                        <option value="FTO"> FTO Matter</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Sender Letter Compliance Date</label>
+                                    <input type="date" name="Sender_Letter_Compliance_Date" class="form-control" >
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card collapsed-card">
+
+                            <div class="card-body" style="display:block">
+
+                                <div class="form-group">
+                                    <label>Office Inward Letter # </label>
+                                    <input type="text" name="Office_Letter_Number" class="form-control" >
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>Office Inward Letter Date </label>
+                                    <input type="date" name="Office_Letter_Date" class="form-control" >
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Office Inward Letter Marked To </label>
+                                    <select name="Office_Letter_Marked_To" class="form-control"
+                                            id="Office_Letter_Marked_To">
+                                        <option value="1"></option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label> Officer Remarks </label>
+                                    <textarea rows="1" cols="5" name="Officer_Remarks" class="form-control"
+                                              ></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Action Warranted </label>
+                                    <select name="action_required" class="form-control">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label> Status </label>
+                                    <select name="Status" id="Status" class="form-control">
+                                        <option value="3">Pending</option>
+                                        <option value="4">Complete</option>
+                                    </select>
+                                </div>
+
+                                <input type="hidden" name="report_type" class="form-control">
+
+                                <input type="hidden" class="form-control" name="hdn_sno" value="">
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <a href="" class="btn btn-default">Cancel</a>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    {% include 'footer.html' %}
+
+</div>
+
+</body>
+</html>
+
+<script>
+
+  $(document).ready(function() {
+       $('.js-example-basic-single').select2();
+
+});
+
+
+
+
+
+
+</script>

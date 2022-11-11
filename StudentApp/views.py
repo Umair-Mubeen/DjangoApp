@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect, resolve_url
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Employee
+from .models import Employee, Tbl_Inward
 
 
 def Index(request):
@@ -161,6 +161,28 @@ def Logout(request):
     del request.session['UserName']
     return HttpResponseRedirect('Dashboard')
 
+def Add_Edit_New_Inward(request):
+    if request.method == 'POST':
+        try:
+            print(request.POST['Sender_Letter_Compliance_Date'])
+            Inward(
+                Sender_Name =request.POST['Sender_Name'],
+                Sender_Letter_Number =request.POST['Sender_Letter_Number'],
+                Sender_Letter_Date = request.POST['Sender_Letter_Date'],
+                Sender_Letter_Subject = request.POST['Sender_Letter_Subject'],
+                Sender_Letter_Type = request.POST['Sender_Letter_Type'],
+                Sender_Letter_Compliance_Date =  request.POST['Sender_Letter_Compliance_Date'],
+                Office_Letter_Number=  request.POST['Office_Letter_Number'],
+                Office_Letter_Date =  request.POST['Office_Letter_Date'],
+                Office_Letter_Marked_To =  request.POST['Office_Letter_Marked_To'],
+                Officer_Remarks =  request.POST['Officer_Remarks'],
+                Office_Compliance_Status = request.POST['Status']
+                )
+            Inward().save()
+        except Exception as e:
+            print(e)
+            return HttpResponse(e)
+    return render(request,'Add_New_Edit_Inward.html')
 
 def IsUserLoggedIn(request):
     if request.session['UserName'] is not None:
